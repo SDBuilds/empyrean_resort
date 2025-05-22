@@ -1,103 +1,181 @@
+"use client";
+import { useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import MainNavbar from "@/components/navbars/MainNavbar";
+import MainFooter from "@/components/footers/MainFooter";
 
-export default function Home() {
+export default function HomePage() {
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // Animation duration in milliseconds
+      once: false, // Whether animation should happen only once
+    });
+  }, []);
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+    <>
+      {/* Full-Screen Resort Sections */}
+      <MainNavbar />
+      <section className="bg-gradient-to-b from-gray-50 to-white">
+        {/* Balod Resort */}
+        <div
+          className="relative group overflow-hidden"
+          data-aos="fade-up"
+        >
+          <Link href="/properties/balod" className="block">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src="/media/Balod/ELR_Balod 22.jpg"
+              alt="Full view of Empyrean Lake Resort in Balod"
+              width={1920}
+              height={1080}
+              className="w-full h-[90vh] object-cover transition-all duration-700 group-hover:scale-105 group-hover:brightness-110"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            {/* Enhanced Text Container with Gradient Background */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+              <div className="absolute bottom-12 left-12 max-w-2xl">
+                <h2 className="text-5xl font-bold text-white mb-4 tracking-tight">Empyrean Lake Resort, Balod</h2>
+                <p className="text-xl text-gray-200 mb-6">A peaceful escape near Tandula Dam.</p>
+                <span className="inline-block px-6 py-3 bg-white/10 backdrop-blur-sm text-white rounded-full border border-white/20 hover:bg-white/20 transition-all duration-300">
+                  Explore Resort
+                </span>
+              </div>
+            </div>
+          </Link>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+
+        {/* Balod Resort - Smaller Images */}
+        <div
+          className="container mx-auto px-4 py-16"
+          data-aos="fade-up"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          <h3 className="text-3xl font-bold text-gray-900 mb-8 text-center">Experience Luxury Living</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                caption: "Luxury Rooms",
+                description: "Experience the ultimate comfort in our luxurious rooms.",
+                image: "/media/Balod/ELR_Balod 103.jpg",
+                link: "/properties/balod",
+              },
+              {
+                caption: "Splashtastic fun for everyone",
+                description: "Dive into fun with our world-class swimming pools.",
+                image: "/media/Balod/ELR_Balod 79.jpg",
+                link: "/properties/balod",
+              },
+              {
+                caption: "Savour the flavor, Experience the moments",
+                description: "Indulge in exquisite dining experiences.",
+                image: "/media/Balod/ELR_Balod 49.jpg",
+                link: "/properties/balod",
+              },
+            ].map((item, index) => (
+              <Link
+                key={index}
+                href={item.link}
+                className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                <Image
+                  src={item.image}
+                  alt={`Bhilai Resort - ${item.caption}`}
+                  width={600}
+                  height={400}
+                  className="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <h3 className="text-2xl font-semibold text-white mb-2">{item.caption}</h3>
+                    <p className="text-gray-200">{item.description}</p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Bhilai Resort */}
+        <div
+          className="relative group overflow-hidden"
+          data-aos="fade-up"
         >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          <Link href="/properties/bhilai" className="block">
+            <Image
+              src="/media/Bhilai/bhilai-resort-full.JPG"
+              alt="Full view of Empyrean Resort in Bhilai"
+              width={1920}
+              height={1080}
+              className="w-full h-[90vh] object-cover transition-all duration-700 group-hover:scale-105 group-hover:brightness-110"
+            />
+            {/* Enhanced Text Container with Gradient Background */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+              <div className="absolute bottom-12 left-12 max-w-2xl">
+                <h2 className="text-5xl font-bold text-white mb-4 tracking-tight">The Empyrean Hotel and Resort, Bhilai</h2>
+                <p className="text-xl text-gray-200 mb-4">NH-6, Durg Bypass, Pushpak Nagar, Near Maruti Suzuki Arena, Bhilai, Chhattisgarh 490020</p>
+                <p className="text-gray-300 mb-6 leading-relaxed">
+                  Chouhan Empyrean Hotel and Resorts, nestled in Bhilai, redefines hospitality with elegance and opulence. Perfect for weddings, concerts, parties, and corporate functions, our venue features 160+ luxurious rooms and extensive amenities.
+                </p>
+                <span className="inline-block px-6 py-3 bg-white/10 backdrop-blur-sm text-white rounded-full border border-white/20 hover:bg-white/20 transition-all duration-300">
+                  Discover More
+                </span>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Bhilai Resort - Smaller Images */}
+        <div
+          className="container mx-auto px-4 py-16"
+          data-aos="fade-up"
         >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <h3 className="text-3xl font-bold text-gray-900 mb-8 text-center">Unforgettable Experiences</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                caption: "Luxury Rooms",
+                description: "Experience the ultimate comfort in our luxurious rooms.",
+                image: "/media/Bhilai/bhilai-small-1.jpg",
+                link: "/properties/bhilai",
+              },
+              {
+                caption: "Splashtastic fun for everyone",
+                description: "Dive into fun with our world-class swimming pools.",
+                image: "/media/Bhilai/bhilai-small-2.jpg",
+                link: "/properties/bhilai",
+              },
+              {
+                caption: "Savour the flavor, Experience the moments",
+                description: "Indulge in exquisite dining experiences.",
+                image: "/media/Bhilai/bhilai-small-3.jpg",
+                link: "/properties/bhilai",
+              },
+            ].map((item, index) => (
+              <Link
+                key={index}
+                href={item.link}
+                className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                <Image
+                  src={item.image}
+                  alt={`Bhilai Resort - ${item.caption}`}
+                  width={600}
+                  height={400}
+                  className="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <h3 className="text-2xl font-semibold text-white mb-2">{item.caption}</h3>
+                    <p className="text-gray-200">{item.description}</p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+      <MainFooter />
+    </>
   );
 }
