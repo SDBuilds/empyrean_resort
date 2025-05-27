@@ -95,24 +95,6 @@ export default function BhilaiNavbar() {
               </motion.li>
             ))}
 
-            {/* Careers Link */}
-            <motion.li
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: menuItems.length * 0.1 }}
-            >
-              <a
-                href="https://in.indeed.com/cmp/Chouhan-Automobiles-LLP"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`transition-colors duration-300 ${
-                  scrolled ? "text-gray-800 hover:text-blue-600" : "text-white hover:text-blue-200"
-                }`}
-              >
-                CAREERS
-              </a>
-            </motion.li>
-
             
           </ul>
 
@@ -164,25 +146,6 @@ export default function BhilaiNavbar() {
                   </motion.li>
                 ))}
 
-                {/* Mobile Careers Link */}
-                <motion.li
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: menuItems.length * 0.1 }}
-                  className="pt-4"
-                >
-                  <a
-                    href="https://in.indeed.com/cmp/Chouhan-Automobiles-LLP"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block text-lg font-medium text-gray-800 hover:text-blue-600 transition-colors duration-300"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    CAREERS
-                  </a>
-                </motion.li>
-
-                
               </ul>
             </div>
           </motion.div>

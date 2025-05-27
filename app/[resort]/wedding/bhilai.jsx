@@ -2,34 +2,36 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import MeetingsAndEvents from './components/Meetings&Events';
-import Venues from './components/Venues';
-import Packages from './components/Packages';
+import WeddingVenues from './components/WeddingVenues';
+import DestinationWedding from './components/DestinationWedding';
+import PreferredPartners from './components/PreferredPartners';
+import FAQ from './components/FAQ';
 
 const tabMap = {
-  'Meetings & Events': <MeetingsAndEvents />,
-  'Venues': <Venues />,
-  'Meeting Package': <Packages />,
+  'Wedding Venues': <WeddingVenues />,
+  'Destination Wedding': <DestinationWedding />,
+  'Preferred Partners': <PreferredPartners />,
+  'FAQ': <FAQ />,
 };
 
-export default function BalodMeetingPage() {
-  const [activeTab, setActiveTab] = useState('Meetings & Events');
+export default function BhilaiWeddingPage() {
+  const [activeTab, setActiveTab] = useState('Wedding Venues');
 
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Hero Image */}
-      <section className="relative h-[60vh]">
+      <section className="relative h-[70vh]">
         <Image
-          src="/media/Balod/meetings-hero.jpg"
-          alt="Meetings & Events at Empyrean Lake Resort, Balod"
+          src="/assets/wedding-hero.jpg"
+          alt="Wedding Venues at The Empyrean Hotel and Resort, Bhilai"
           fill
           className="object-cover"
         />
         <div className="absolute inset-0 bg-black/30" />
         <div className="absolute inset-0 flex items-center justify-center text-center">
           <div className="container mx-auto px-4">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Inspiring Meetings at Empyrean Lake Resort
+            <h1 className="text-5xl font-bold text-white mb-6">
+              Ideal Settings for Weddings of All Sizes
             </h1>
           </div>
         </div>

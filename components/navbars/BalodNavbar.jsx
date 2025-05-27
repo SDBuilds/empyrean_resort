@@ -30,9 +30,9 @@ export default function BalodNavbar() {
     { text: "STAY", href: "/balod/stay" },
     { text: "DINING", href: "/balod/dining" },
     { text: "WEDDINGS", href: "/balod/wedding" },
-    { text: "EVENTS", href: "/balod/events" },
-    { text: "ACTIVITIES", href: "/balod/activities" },
-    { text: "GALLERY", href: "/gallery" },
+    { text: "OFFERS", href: "/balod/offers" },
+    { text: "MEETINGS", href: "/balod/meetings" },
+    { text: "THINGS TO DO", href: "/balod/thingstodo" },
     { text: "CONTACT", href: "/contact" },
   ];
 
@@ -94,37 +94,12 @@ export default function BalodNavbar() {
               </motion.li>
             ))}
 
-            {/* Careers Link */}
-            <motion.li
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ 
-                duration: 0.3,
-                delay: 0.2 + (menuItems.length * 0.05),
-                ease: "easeOut"
-              }}
-            >
-              <a
-                href="https://in.indeed.com/cmp/Chouhan-Automobiles-LLP"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`transition-colors duration-300 ${
-                  scrolled ? "text-gray-800 hover:text-blue-600" : "text-white hover:text-blue-200"
-                }`}
-              >
-                CAREERS
-              </a>
-            </motion.li>
 
             {/* Book Now Button */}
             <motion.li
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ 
-                duration: 0.3,
-                delay: 0.2 + (menuItems.length + 1) * 0.05,
-                ease: "easeOut"
-              }}
+              transition={{ delay: (menuItems.length + 1) * 0.1 }}
               whileHover={{ scale: 1.05 }}
             >
               <a
@@ -190,27 +165,6 @@ export default function BalodNavbar() {
                   </motion.li>
                 ))}
 
-                {/* Mobile Careers Link */}
-                <motion.li
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ 
-                    duration: 0.3,
-                    delay: 0.2 + (menuItems.length * 0.05),
-                    ease: "easeOut"
-                  }}
-                  className="pt-4"
-                >
-                  <a
-                    href="https://in.indeed.com/cmp/Chouhan-Automobiles-LLP"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block text-lg font-medium text-gray-800 hover:text-blue-600 transition-colors duration-300"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    CAREERS
-                  </a>
-                </motion.li>
 
                 {/* Mobile Book Now Button */}
                 <motion.li

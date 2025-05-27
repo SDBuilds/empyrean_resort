@@ -1,6 +1,15 @@
+"use client";
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { usePathname } from 'next/navigation';
 
 export default function Footer() {
+  const pathname = usePathname();
+  
+  // Don't render footer on any routes that start with /bhilai or /balod
+  if (pathname.startsWith('/bhilai') || pathname.startsWith('/balod')) {
+    return null;
+  }
+
   return (
     <footer className="bg-gray-900 text-gray-300">
       {/* Main Footer Content */}
