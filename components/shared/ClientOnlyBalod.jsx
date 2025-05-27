@@ -32,12 +32,13 @@ export default function ClientOnlyBalod() {
           />
         </div>
       ) : (
-        <iframe
+        <iframe 
           className="absolute inset-0 w-full h-full"
-          src="https://www.youtube.com/embed/oC-B7BmCeFc?autoplay=1&mute=1&loop=1&playlist=oC-B7BmCeFc&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
-          title="Empyrean Lake Resort Promotional Video"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          src="https://www.youtube.com/embed/oC-B7BmCeFc?si=EEgy5JOvOPunwA7-&autoplay=1&mute=1&loop=1&playlist=oC-B7BmCeFc&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1" 
+          title="YouTube video player" 
+          frameBorder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          referrerPolicy="strict-origin-when-cross-origin" 
           allowFullScreen
           onLoad={() => setIsLoading(false)}
           onError={(e) => {
