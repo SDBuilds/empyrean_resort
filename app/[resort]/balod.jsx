@@ -6,8 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import ClientOnlyBalod from "@/components/shared/ClientOnlyBalod";
-import BalodNavbar from "@/components/navbars/BalodNavbar";
-import BalodFooter from "@/components/footers/BalodFooter"; 
+
 
 // Dynamically import Slider with SSR disabled
 const Slider = dynamic(() => import("react-slick"), { ssr: false });
@@ -183,7 +182,7 @@ export default function BalodPage() {
                   alt={card.title} 
                   fill 
                   sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                  priority
+                  loading="lazy"
                   className="object-cover transition-transform duration-500 group-hover:scale-110" 
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
