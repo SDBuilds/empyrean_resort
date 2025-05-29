@@ -2,7 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import LenisProvider from "@/components/LenisProvider";
 import MainFooter from "@/components/footers/MainFooter";
-import ConditionalNavbar from "@/components/navbars/ConditionalNavbar"; // NEW
+import ConditionalNavbar from "@/components/navbars/ConditionalNavbar"; 
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <LenisProvider>
-          <ConditionalNavbar /> {/* moved conditional logic here */}
+          <ConditionalNavbar /> 
           {children}
           <MainFooter />
         </LenisProvider>

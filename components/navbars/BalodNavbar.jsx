@@ -8,16 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function BalodNavbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   // Only render on Balod routes
   if (!pathname.startsWith('/balod')) {
@@ -46,9 +37,7 @@ export default function BalodNavbar() {
         damping: 20,
         duration: 0.5
       }}
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? "bg-white/95 backdrop-blur-md shadow-lg" : "bg-black/30 backdrop-blur-sm"
-      }`}
+      className="sticky top-0 left-0 w-full z-50 bg-black"
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
@@ -63,9 +52,7 @@ export default function BalodNavbar() {
                 alt="Empyrean Lake Resort"
                 width={150}
                 height={50}
-                className={`transition-all duration-300 ${
-                  scrolled ? "" : "brightness-0 invert" 
-                }`}
+                className="transition-all duration-300 brightness-0 invert"
               />
             </Link>
           </motion.div>
@@ -85,15 +72,12 @@ export default function BalodNavbar() {
               >
                 <Link
                   href={item.href}
-                  className={`transition-colors duration-300 ${
-                    scrolled ? "text-gray-800 hover:text-blue-600" : "text-white hover:text-blue-200"
-                  }`}
+                  className="text-white hover:text-blue-200 transition-colors duration-300"
                 >
                   {item.text}
                 </Link>
               </motion.li>
             ))}
-
 
             {/* Book Now Button */}
             <motion.li
@@ -116,9 +100,7 @@ export default function BalodNavbar() {
           {/* Mobile Menu Button */}
           <motion.button
             whileTap={{ scale: 0.95 }}
-            className={`lg:hidden relative z-10 p-2 rounded-lg transition-colors duration-300 ${
-              scrolled ? "text-gray-800 hover:bg-gray-100" : "text-white hover:bg-white/10"
-            }`}
+            className="lg:hidden relative z-10 p-2 rounded-lg text-white hover:bg-white/10 transition-colors duration-300 focus:outline-none"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
           >
@@ -131,19 +113,37 @@ export default function BalodNavbar() {
       <AnimatePresence mode="wait">
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ 
-              type: "spring",
-              stiffness: 300,
-              damping: 30,
-              duration: 0.3
-            }}
-            className="lg:hidden fixed inset-0 bg-white z-40"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="lg:hidden fixed inset-0 bg-black/80 z-40"
+            onClick={() => setMenuOpen(false)}
           >
-            <div className="container mx-auto px-4 pt-24 pb-8">
-              <ul className="flex flex-col space-y-6">
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ 
+                type: "spring",
+                stiffness: 300,
+                damping: 30,
+                duration: 0.3
+              }}
+              className="fixed right-0 top-0 h-full w-4/5 max-w-xs bg-white shadow-xl z-50"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100 relative z-50">
+                <Image src="/media/Balod/EmpyreanLogo.png" alt="Empyrean Lake Resort" width={120} height={40} />
+                <button
+                  className="p-2 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-none relative z-50"
+                  onClick={() => setMenuOpen(false)}
+                  aria-label="Close menu"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+              <ul className="flex flex-col space-y-6 px-4 py-6">
                 {menuItems.map((item, index) => (
                   <motion.li
                     key={item.text}
@@ -164,7 +164,6 @@ export default function BalodNavbar() {
                     </Link>
                   </motion.li>
                 ))}
-
 
                 {/* Mobile Book Now Button */}
                 <motion.li
@@ -188,7 +187,7 @@ export default function BalodNavbar() {
                   </a>
                 </motion.li>
               </ul>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

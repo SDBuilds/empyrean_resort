@@ -8,17 +8,8 @@ import { usePathname } from "next/navigation";
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   let dropdownTimeout;
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const handleMouseEnter = () => {
     clearTimeout(dropdownTimeout);
@@ -37,7 +28,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-30 bg-gradient-to-b from-black/40 via-black/10 to-transparent backdrop-blur-md transition-all duration-300">
+    <nav className="sticky top-0 left-0 w-full z-30 bg-black">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
@@ -47,7 +38,7 @@ export default function Navbar() {
               alt="Empyrean Hotels"
               width={70}
               height={20}
-              className={`transition-all duration-300 hover:scale-105 ${scrolled ? "" : "brightness-0 invert"}`}
+              className="transition-all duration-300 hover:scale-105 brightness-0 invert"
             />
           </Link>
 
@@ -56,7 +47,7 @@ export default function Navbar() {
             <li>
               <Link
                 href="/"
-                className={`transition-colors duration-300 ${scrolled ? "text-gray-800 hover:text-blue-600" : "text-white hover:text-blue-200"}`}
+                className="text-white hover:text-blue-200 transition-colors duration-300"
               >
                 HOME
               </Link>
@@ -65,7 +56,7 @@ export default function Navbar() {
             {/* Resorts Dropdown */}
             <li className="relative group" tabIndex={0} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
               <button
-                className={`flex items-center gap-1 transition-colors duration-300 focus:outline-none ${scrolled ? "text-gray-800 hover:text-blue-600" : "text-white hover:text-blue-200"}`}
+                className="flex items-center gap-1 text-white hover:text-blue-200 transition-colors duration-300 focus:outline-none"
                 aria-haspopup="true"
                 aria-expanded={dropdownOpen}
                 aria-label="Resorts"
@@ -98,7 +89,7 @@ export default function Navbar() {
             <li>
               <Link
                 href="/events"
-                className={`transition-colors duration-300 ${scrolled ? "text-gray-800 hover:text-blue-600" : "text-white hover:text-blue-200"}`}
+                className="text-white hover:text-blue-200 transition-colors duration-300"
               >
                 EVENTS
               </Link>
@@ -106,7 +97,7 @@ export default function Navbar() {
             <li>
               <Link
                 href="/gallery"
-                className={`transition-colors duration-300 ${scrolled ? "text-gray-800 hover:text-blue-600" : "text-white hover:text-blue-200"}`}
+                className="text-white hover:text-blue-200 transition-colors duration-300"
               >
                 GALLERY
               </Link>
@@ -114,7 +105,7 @@ export default function Navbar() {
             <li>
               <Link
                 href="/contact"
-                className={`transition-colors duration-300 ${scrolled ? "text-gray-800 hover:text-blue-600" : "text-white hover:text-blue-200"}`}
+                className="text-white hover:text-blue-200 transition-colors duration-300"
               >
                 CONTACT US
               </Link>
@@ -124,7 +115,7 @@ export default function Navbar() {
                 href="https://in.indeed.com/cmp/Chouhan-Automobiles-LLP"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`transition-colors duration-300 ${scrolled ? "text-gray-800 hover:text-blue-600" : "text-white hover:text-blue-200"}`}
+                className="text-white hover:text-blue-200 transition-colors duration-300"
               >
                 CAREERS
               </a>
@@ -143,13 +134,13 @@ export default function Navbar() {
 
           {/* Mobile Menu Button */}
           <button
-            className={`lg:hidden relative z-50 p-2 rounded-lg transition-colors duration-300 focus:outline-none ${scrolled ? "text-gray-800 hover:bg-gray-100" : "text-white hover:bg-white/10"}`}
+            className="lg:hidden relative z-50 p-2 rounded-lg text-white hover:bg-white/10 transition-colors duration-300 focus:outline-none"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
           >
-            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+            {menuOpen ? null : <Menu size={24} />}
           </button>
         </div>
       </div>
@@ -157,7 +148,7 @@ export default function Navbar() {
       {/* Mobile Menu */}
       <div
         id="mobile-menu"
-        className={`lg:hidden fixed inset-0 bg-black/80 z-40 transition-opacity duration-300 ${menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+        className={`lg:hidden fixed inset-0 z-40 transition-opacity duration-300 ${menuOpen ? "opacity-100 pointer-events-auto bg-black/80" : "opacity-0 pointer-events-none bg-black/80"}`}
         aria-hidden={!menuOpen}
         onClick={() => setMenuOpen(false)}
       >
@@ -165,10 +156,10 @@ export default function Navbar() {
           className={`fixed right-0 top-0 h-full w-4/5 max-w-xs bg-white shadow-xl transform transition-transform duration-300 z-50 ${menuOpen ? "translate-x-0" : "translate-x-full"}`}
           onClick={e => e.stopPropagation()}
         >
-          <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100">
+          <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100 relative z-50">
             <Image src="/media/Balod/EmpyreanLogo.png" alt="Empyrean Hotels" width={120} height={40} />
             <button
-              className="p-2 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-none"
+              className="p-2 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-none relative z-50"
               onClick={() => setMenuOpen(false)}
               aria-label="Close menu"
             >
@@ -193,7 +184,7 @@ export default function Navbar() {
                 <ChevronDown size={20} className={`transition-transform duration-300 ${dropdownOpen ? "rotate-180" : ""}`} />
               </button>
               {dropdownOpen && (
-                <div className="mt-2 ml-2 space-y-2 bg-gray-50 p-3 rounded-md shadow-md">
+                <div className="mt-2 ml-2 space-y-2 bg-gray-50 p-3 rounded-md">
                   <Link
                     href="/bhilai"
                     className="block py-2 px-2 text-gray-800 hover:text-blue-600 transition-colors duration-300"

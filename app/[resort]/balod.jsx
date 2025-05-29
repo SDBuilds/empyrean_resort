@@ -78,6 +78,8 @@ export default function BalodPage() {
       <section className="relative h-screen">
         <ClientOnlyBalod />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
+        {/* Overlay to hide YouTube details */}
+        <div className="absolute top-0 left-0 right-0 h-15 bg-black z-30"></div>
         <div className="absolute inset-0 flex items-end justify-start text-left p-8 md:p-16">
           <div className="max-w-3xl space-y-6" data-aos="fade-up">
             <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight">
