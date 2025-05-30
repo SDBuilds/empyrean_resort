@@ -1,15 +1,19 @@
 "use client";
+import { memo, useEffect, useState } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import ClientOnlyBalod from "@/components/shared/ClientOnlyBalod";
 
 
-// Dynamically import Slider with SSR disabled
+// Dynamically import components with SSR disabled
 const Slider = dynamic(() => import("react-slick"), { ssr: false });
+const ReactPlayer = dynamic(() => import("react-player/lazy"), { ssr: false });
+
+// Constants
+const VIDEO_URL = "https://youtu.be/oC-B7BmCeFc"; 
 
 const amenityCards = [
   {
@@ -41,7 +45,64 @@ const weddingImages = [
   "/media/Balod/ELR_Balod 95.jpg",
 ];
 
+// Memoized components for better performance
+const AmenityCard = memo(({ card }) => (
+  <div className="group relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg transition-all duration-500 hover:shadow-2xl">
+    <Image
+      src={card.image}
+      alt={card.title}
+      fill
+      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+      loading="lazy"
+      className="object-cover transition-transform duration-700 group-hover:scale-110"
+    />
+    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
+    <div className="absolute inset-0 p-8 flex flex-col justify-end transform translate-y-8 group-hover:translate-y-0 transition-all duration-500">
+      <h3 className="text-2xl font-bold text-white mb-3 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100">
+        {card.title}
+      </h3>
+      <p className="text-gray-200 text-base line-clamp-2 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-200">
+        {card.description}
+      </p>
+      <Link
+        href={card.route}
+        className="mt-4 inline-flex items-center text-white text-base font-medium opacity-0 group-hover:opacity-100 transition-all duration-500 delay-300"
+      >
+        <span className="relative">
+          Explore
+          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+        </span>
+        <ArrowRight size={18} className="ml-2 transform group-hover:translate-x-2 transition-transform duration-300" />
+      </Link>
+    </div>
+  </div>
+));
+
+AmenityCard.displayName = 'AmenityCard';
+
+const GalleryImage = memo(({ image, index }) => (
+  <div className="px-4">
+    <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-lg transform hover:scale-[1.02] transition-transform duration-500">
+      <Image
+        src={image}
+        alt={`Gallery Image ${index + 1}`}
+        fill
+        className="object-cover"
+        loading="lazy"
+      />
+    </div>
+  </div>
+));
+
+GalleryImage.displayName = 'GalleryImage';
+
 export default function BalodPage() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -53,21 +114,15 @@ export default function BalodPage() {
     responsive: [
       {
         breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-        }
+        settings: { slidesToShow: 3 }
       },
       {
         breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-        }
+        settings: { slidesToShow: 2 }
       },
       {
         breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-        }
+        settings: { slidesToShow: 1 }
       }
     ]
   };
@@ -75,12 +130,47 @@ export default function BalodPage() {
   return (
     <main className="min-h-screen">
       {/* Video Hero Section */}
-      <section className="relative h-screen">
-        <ClientOnlyBalod />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
-        {/* Overlay to hide YouTube details */}
-        <div className="absolute top-0 left-0 right-0 h-15 bg-black z-30"></div>
-        <div className="absolute inset-0 flex items-end justify-start text-left p-8 md:p-16">
+      <section className="relative h-screen overflow-hidden">
+        <div className="absolute inset-0">
+          {isMounted && (
+            <ReactPlayer
+              url={VIDEO_URL}
+              width="100%"
+              height="100%"
+              playing
+              loop
+              muted
+              playsinline
+              config={{
+                youtube: {
+                  playerVars: {
+                    showinfo: 0,
+                    controls: 0,
+                    modestbranding: 1,
+                    rel: 0,
+                    iv_load_policy: 3,
+                    fs: 0,
+                    disablekb: 1,
+                    origin: typeof window !== 'undefined' ? window.location.origin : ''
+                  }
+                }
+              }}
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '100vw',
+                height: '100vh',
+                pointerEvents: 'none'
+              }}
+            />
+          )}
+        </div>
+        {/* Overlay to hide any remaining YouTube elements */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent z-10" />
+        <div className="absolute top-0 left-0 right-0 h-12 bg-black z-20"></div>
+        <div className="absolute inset-0 flex items-end justify-start text-left p-8 md:p-16 z-30">
           <div className="max-w-3xl space-y-6" data-aos="fade-up">
             <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight">
               The Empyrean Lake Resort
@@ -160,9 +250,9 @@ export default function BalodPage() {
       </section>
 
       {/* Amenity Cards */}
-      <section className="py-24 bg-gradient-to-b from-gray-50 to-white">    
+      <section className="py-24 bg-gradient-to-b from-gray-50 to-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-20">
             <span className="text-blue-600 font-semibold tracking-wider uppercase text-sm mb-4 block">
               Our Facilities
             </span>
@@ -173,36 +263,9 @@ export default function BalodPage() {
               Discover our world-class amenities designed to make your stay unforgettable
             </p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {amenityCards.map((card) => (
-              <div
-                key={card.title}
-                className="group relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl"
-              >
-                <Image 
-                  src={card.image} 
-                  alt={card.title} 
-                  fill 
-                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                  loading="lazy"
-                  className="object-cover transition-transform duration-500 group-hover:scale-110" 
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
-                <div className="absolute inset-0 p-6 flex flex-col justify-end">
-                  <h3 className="text-xl font-bold text-white mb-2 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                    {card.title}
-                  </h3>
-                  <p className="text-gray-200 text-sm line-clamp-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-                    {card.description}
-                  </p>
-                  <Link
-                    href={card.route}
-                    className="mt-3 inline-flex items-center text-white text-sm font-medium opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300"
-                  >
-                    Explore <ArrowRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform duration-300" />
-                  </Link>
-                </div>
-              </div>
+              <AmenityCard key={card.title} card={card} />
             ))}
           </div>
         </div>
@@ -238,7 +301,7 @@ export default function BalodPage() {
                 Empyrean Lake Resort, nestled by the beautiful Tandula Lake, offers a perfect blend of natural beauty and luxury for your special day. Our versatile event spaces and stunning lake views create an unforgettable backdrop for your wedding celebration.
               </p>
               <Link
-                href="/properties/bhilai/wedding"
+                href="/balod/wedding"
                 className="inline-flex items-center space-x-2 bg-blue-600 text-white px-8 py-4 rounded-full font-medium hover:bg-blue-700 transition-colors duration-300 shadow-lg hover:shadow-xl"
               >
                 <span>Explore Weddings</span>
@@ -266,16 +329,7 @@ export default function BalodPage() {
           <div className="max-w-7xl mx-auto">
             <Slider {...sliderSettings}>
               {weddingImages.map((image, index) => (
-                <div key={index} className="px-4">
-                  <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-lg transform hover:scale-[1.02] transition-transform duration-500">
-                    <Image
-                      src={image}
-                      alt={`Gallery Image ${index + 1}`}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                </div>
+                <GalleryImage key={index} image={image} index={index} />
               ))}
             </Slider>
           </div>

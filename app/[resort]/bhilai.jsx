@@ -1,14 +1,16 @@
 "use client";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import { memo, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import ClientOnlyBhilai from "@/components/shared/ClientOnlyBhilai";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-// Dynamically import Slider with SSR disabled
+// Dynamically import components with SSR disabled
 const Slider = dynamic(() => import("react-slick"), { ssr: false });
+const ClientOnlyBhilai = dynamic(() => import("@/components/shared/ClientOnlyBhilai"), { ssr: false });
+
 
 const amenityCards = [
   {
@@ -38,7 +40,94 @@ const weddingImages = [
   "/media/Bhilai/bhilai11.jpg",
 ];
 
+// Memoized components for better performance
+const AmenityCard = memo(({ card }) => (
+  <div className="group relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg transition-all duration-500 hover:shadow-2xl">
+    <Image 
+      src={card.image} 
+      alt={card.title} 
+      fill 
+      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+      loading="lazy"
+      className="object-cover transition-transform duration-700 group-hover:scale-110" 
+    />
+    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
+    <div className="absolute inset-0 p-8 flex flex-col justify-end transform translate-y-8 group-hover:translate-y-0 transition-all duration-500">
+      <h3 className="text-2xl font-bold text-white mb-3 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100">
+        {card.title}
+      </h3>
+      <p className="text-gray-200 text-base line-clamp-2 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-200">
+        {card.description}
+      </p>
+      <Link
+        href={card.route}
+        className="mt-4 inline-flex items-center text-white text-base font-medium opacity-0 group-hover:opacity-100 transition-all duration-500 delay-300"
+      >
+        <span className="relative">
+          Explore
+          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+        </span>
+        <ArrowRight size={18} className="ml-2 transform group-hover:translate-x-2 transition-transform duration-300" />
+      </Link>
+    </div>
+  </div>
+));
+
+AmenityCard.displayName = 'AmenityCard';
+
+const GalleryImage = memo(({ image, index }) => (
+  <div className="px-4">
+    <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-lg transform hover:scale-[1.02] transition-transform duration-500">
+      <Image
+        src={image}
+        alt={`Gallery Image ${index + 1}`}
+        fill
+        className="object-cover"
+        loading="lazy"
+      />
+    </div>
+  </div>
+));
+
+GalleryImage.displayName = 'GalleryImage';
+
+const SectionTitle = memo(({ subtitle, title, description }) => (
+  <div className="text-center mb-20">
+    <span className="text-blue-600 font-semibold tracking-wider uppercase text-sm mb-4 block">
+      {subtitle}
+    </span>
+    <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+      {title}
+    </h2>
+    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+      {description}
+    </p>
+  </div>
+));
+
+SectionTitle.displayName = 'SectionTitle';
+
+const PropertyImage = memo(({ src, alt, className = "" }) => (
+  <div className={`relative h-[600px] rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-transform duration-500 ${className}`}>
+    <Image
+      src={src}
+      alt={alt}
+      fill
+      className="object-cover"
+      priority
+    />
+  </div>
+));
+
+PropertyImage.displayName = 'PropertyImage';
+
 export default function BhilaiPage() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -50,21 +139,15 @@ export default function BhilaiPage() {
     responsive: [
       {
         breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-        }
+        settings: { slidesToShow: 3 }
       },
       {
         breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-        }
+        settings: { slidesToShow: 2 }
       },
       {
         breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-        }
+        settings: { slidesToShow: 1 }
       }
     ]
   };
@@ -91,15 +174,10 @@ export default function BhilaiPage() {
       <section className="py-24 bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="relative h-[600px] rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
-              <Image
-                src="/media/Bhilai/bhilai-small-1.jpg"
-                alt="Empyrean Resort Bhilai"
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
+            <PropertyImage
+              src="/media/Bhilai/bhilai-small-1.jpg"
+              alt="Empyrean Resort Bhilai"
+            />
             <div className="space-y-8">
               <div className="space-y-4">
                 <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
@@ -124,47 +202,14 @@ export default function BhilaiPage() {
       {/* Amenity Cards */}
       <section className="py-24 bg-gradient-to-b from-gray-50 to-white">    
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <span className="text-blue-600 font-semibold tracking-wider uppercase text-sm mb-4 block">
-              Our Facilities
-            </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Experience Luxury
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Discover our world-class amenities designed to make your stay unforgettable
-            </p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+          <SectionTitle
+            subtitle="Our Facilities"
+            title="Experience Luxury"
+            description="Discover our world-class amenities designed to make your stay unforgettable"
+          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {amenityCards.map((card) => (
-              <div
-                key={card.title}
-                className="group relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl"
-              >
-                <Image 
-                  src={card.image} 
-                  alt={card.title} 
-                  fill 
-                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                  priority
-                  className="object-cover transition-transform duration-500 group-hover:scale-110" 
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
-                <div className="absolute inset-0 p-6 flex flex-col justify-end">
-                  <h3 className="text-xl font-bold text-white mb-2 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                    {card.title}
-                  </h3>
-                  <p className="text-gray-200 text-sm line-clamp-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-                    {card.description}
-                  </p>
-                  <Link
-                    href={card.route}
-                    className="mt-3 inline-flex items-center text-white text-sm font-medium opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300"
-                  >
-                    Explore <ArrowRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform duration-300" />
-                  </Link>
-                </div>
-              </div>
+              <AmenityCard key={card.title} card={card} />
             ))}
           </div>
         </div>
@@ -174,15 +219,10 @@ export default function BhilaiPage() {
       <section className="py-24 bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="relative h-[600px] rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
-              <Image
-                src="/media/Bhilai/bhilai10.jpg"
-                alt="Weddings at Empyrean Resort"
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
+            <PropertyImage
+              src="/media/Bhilai/bhilai10.jpg"
+              alt="Weddings at Empyrean Resort"
+            />
             <div className="space-y-8">
               <div className="space-y-4">
                 <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
@@ -200,7 +240,7 @@ export default function BhilaiPage() {
                 Empyrean Hotel and Resorts, nestled in Bhilai, redefines hospitality with elegance and opulence. Perfect for weddings, concerts, parties, and corporate functions, our venue features 160+ luxurious rooms and extensive amenities.
               </p>
               <Link
-                href="/properties/bhilai/wedding"
+                href="bhilai/wedding"
                 className="inline-flex items-center space-x-2 bg-blue-600 text-white px-8 py-4 rounded-full font-medium hover:bg-blue-700 transition-colors duration-300 shadow-lg hover:shadow-xl"
               >
                 <span>Explore Weddings</span>
@@ -214,30 +254,15 @@ export default function BhilaiPage() {
       {/* Image Slider Section */}
       <section className="py-24 bg-gradient-to-b from-gray-50 to-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <span className="text-blue-600 font-semibold tracking-wider uppercase text-sm mb-4 block">
-              Visual Journey
-            </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Photo Gallery
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Explore the beauty and elegance of The Empyrean Hotel and Resort through our curated gallery
-            </p>
-          </div>
+          <SectionTitle
+            subtitle="Visual Journey"
+            title="Photo Gallery"
+            description="Explore the beauty and elegance of The Empyrean Hotel and Resort through our curated gallery"
+          />
           <div className="max-w-7xl mx-auto">
             <Slider {...sliderSettings}>
               {weddingImages.map((image, index) => (
-                <div key={index} className="px-4">
-                  <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-lg transform hover:scale-[1.02] transition-transform duration-500">
-                    <Image
-                      src={image}
-                      alt={`Gallery Image ${index + 1}`}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                </div>
+                <GalleryImage key={index} image={image} index={index} />
               ))}
             </Slider>
           </div>

@@ -15,14 +15,16 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Empyrean Hotels & Resorts",
+  title: "Empyrean Hotels & Resorts | Luxury Resorts & Destination Getaways",
   icons: {
     icon: "/media/Bhilai/ChouhanG.png",
     shortcut: "/media/Bhilai/ChouhanG.png",
     apple: "/media/Bhilai/ChouhanG.png",
   },
-  description: "Website for Empyrean Hotels & Resorts",
+  description:
+    "Book your stay at Empyrean Hotels & Resorts – premium luxury resorts offering unforgettable experiences, destination weddings, spa retreats & 5-star hospitality.",
 };
+
 
 export default function RootLayout({ children }) {
   return (

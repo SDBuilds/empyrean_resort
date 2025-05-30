@@ -9,7 +9,7 @@ import "aos/dist/aos.css";
 const HeroSection = ({ resort, image, title, address, phone, description, buttonText }) => (
   <div className="relative group overflow-hidden" data-aos="fade-up">
     <Link href={`/${resort}`} className="block">
-      <div className="relative h-screen">
+      <div className="relative h-[70vh] md:h-screen">
         <Image
           src={image}
           alt={`Empyrean ${resort === 'balod' ? 'Lake Resort' : 'Hotel and Resort'} in ${resort.charAt(0).toUpperCase() + resort.slice(1)}`}
@@ -18,20 +18,22 @@ const HeroSection = ({ resort, image, title, address, phone, description, button
           className="object-cover transition-all duration-700 group-hover:scale-105 group-hover:brightness-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent">
-          <div className="absolute bottom-0 left-0 right-0 p-16 max-w-4xl mx-auto">
-            <div className="space-y-6 bg-black/40 backdrop-blur-sm p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="200">
-              <h2 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-tight">
+          <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-8 md:p-16 max-w-4xl mx-auto">
+            <div className="space-y-4 md:space-y-6 bg-black/40 backdrop-blur-sm p-4 sm:p-6 md:p-8 rounded-xl md:rounded-2xl" data-aos="fade-up" data-aos-delay="200">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
                 {title}
               </h2>
-              <div className="space-y-4">
-                <p className="text-xl text-gray-200 leading-relaxed">{address}</p>
-                <p className="text-xl text-gray-200 leading-relaxed">Phone: {phone}</p>
+              <div className="space-y-2 md:space-y-4">
+                <p className="text-base sm:text-lg md:text-xl text-gray-200 leading-relaxed">{address}</p>
+                <p className="text-base sm:text-lg md:text-xl text-gray-200 leading-relaxed">Phone: {phone}</p>
               </div>
-              <p className="text-lg text-gray-300 leading-relaxed">{description}</p>
-              <div className="pt-4">
-                <span className="inline-flex items-center px-8 py-4 bg-white/10 backdrop-blur-md text-white rounded-full border border-white/30 hover:bg-white/20 transition-all duration-300 text-lg font-medium group">
+              <p className="text-sm sm:text-base md:text-lg text-gray-300 leading-relaxed line-clamp-3 md:line-clamp-none">
+                {description}
+              </p>
+              <div className="pt-2 md:pt-4">
+                <span className="inline-flex items-center px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 bg-white/10 backdrop-blur-md text-white rounded-full border border-white/30 hover:bg-white/20 transition-all duration-300 text-sm sm:text-base md:text-lg font-medium group">
                   {buttonText}
-                  <svg className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </span>
