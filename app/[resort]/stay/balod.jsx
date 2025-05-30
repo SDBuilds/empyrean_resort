@@ -119,14 +119,14 @@ export default function BalodStayPage() {
   const roomBlocks = [
     {
       title: "A-BLOCK",
-      image: "/media/Bhilai/bhilai-small-3.jpg", 
+      image: "/media/Balod/balod-small-3.jpg",
       description:
         "These bright, lakehouse-inspired lakeside rooms are newly built at 160 sq.ft (15 sq.mt). Enjoy breathtaking views of the lake from your private patio or balcony.",
       buttonText: "BOOK NOW",
     },
     {
       title: "C-BLOCK",
-      image: "/media/Bhilai/bhilai5.jpg", 
+      image: "/media/Balod/balod5.jpg",
       description:
         "4 Share Luxurious room these bright rooms are newly built and outfitted with 2 King beds, luggage rack and wardrobe.",
       buttonText: "BOOK NOW",
@@ -136,60 +136,60 @@ export default function BalodStayPage() {
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Hero Image Section */}
-      <section className="relative h-[70vh]">
+      <section className="relative h-[80vh]">
         <Image
-          src="/media/Bhilai/chouhan2.jpg" 
-          alt="The Empyrean Hotel and Resort"
+          src="/media/Balod/balod-hero.jpg"
+          alt="The Empyrean Lake Resort"
           fill
           className="object-cover"
+          priority
         />
-        <div className="absolute inset-0 bg-black/40" /> {/* Semi-transparent overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40" />
         <div className="absolute inset-0 flex items-center justify-center text-center">
           <div className="container mx-auto px-4">
-            <h1 className="text-5xl font-bold text-white mb-6">
-              The Empyrean Hotel and Resort
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 animate-fadeIn">
+              The Empyrean Lake Resort
             </h1>
-            <p className="text-xl text-white/90 max-w-2xl mx-auto">
-              Experience luxury, elegance, and sophistication in the heart of Bhilai.
+            <p className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto animate-fadeIn delay-200">
+              Experience luxury, elegance, and sophistication by the serene Tandula Lake.
             </p>
           </div>
         </div>
       </section>
 
       {/* Rooms & Suites Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-12">
-            Rooms & Suites at The Empyrean Hotel & Resort
-          </h2>
-          <p className="text-lg text-gray-600 text-center max-w-4xl mx-auto mb-12">
-            Located in the heart of Bhilai, The Empyrean Hotel and Resort offers spacious rooms and
-            suites designed for ultimate comfort. With modern, nature-inspired decor, each room is
-            equipped with plush king or queen-sized beds and a variety of amenities, ensuring a
-            relaxing and enjoyable stay.
-          </p>
+          <div className="text-center max-w-4xl mx-auto mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">
+              Rooms & Suites at The Empyrean Lake Resort
+            </h2>
+            <p className="text-lg text-gray-600">
+              Located on the serene shores of Tandula Lake, The Empyrean Lake Resort offers spacious rooms and
+              suites designed for ultimate comfort. With modern, nature-inspired decor, each room is
+              equipped with plush king or queen-sized beds and a variety of amenities, ensuring a
+              relaxing and enjoyable stay.
+            </p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {roomBlocks.map((block, index) => (
-              <div key={index} className="text-center">
-                <div className="relative h-[300px] rounded-lg overflow-hidden">
+              <div key={index} className="group">
+                <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-lg">
                   <Image
                     src={block.image}
                     alt={block.title}
                     fill
-                    className="object-cover"
+                    className="object-cover transform group-hover:scale-105 transition-transform duration-500"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mt-6">{block.title}</h3>
-                <a
-                  href="#"
-                  className="text-blue-600 font-medium hover:underline mt-2 inline-block"
-                >
-                  Photos
-                </a>
-                <p className="text-lg text-gray-600 mt-4">{block.description}</p>
-                <button className="mt-6 bg-blue-600 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-700 transition-colors">
-                  {block.buttonText}
-                </button>
+                <div className="mt-6 text-center">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">{block.title}</h3>
+                  <p className="text-lg text-gray-600 mb-6">{block.description}</p>
+                  <button className="bg-blue-600 text-white px-8 py-3 rounded-full font-medium hover:bg-blue-700 transition-colors duration-300 transform hover:-translate-y-1">
+                    {block.buttonText}
+                  </button>
+                </div>
               </div>
             ))}
           </div>
@@ -200,7 +200,7 @@ export default function BalodStayPage() {
       <section className="py-20 bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-4xl font-extrabold text-gray-900 mb-4">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
               In-Room Amenities
             </h2>
             <p className="text-lg text-gray-600">
@@ -208,14 +208,14 @@ export default function BalodStayPage() {
             </p>
           </div>
 
-          <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-12 mb-16">
+          <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl p-12 mb-16">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
               {amenities.map((amenity, index) => (
                 <div 
                   key={index} 
-                  className="flex flex-col items-center text-center p-4 hover:bg-gray-50 rounded-xl transition-all duration-200 group"
+                  className="flex flex-col items-center text-center p-6 hover:bg-gray-50 rounded-xl transition-all duration-300 group"
                 >
-                  <div className="w-12 h-12 flex items-center justify-center mb-3 text-blue-600 group-hover:scale-110 transition-transform duration-200">
+                  <div className="w-14 h-14 flex items-center justify-center mb-4 text-blue-600 group-hover:scale-110 transition-transform duration-300">
                     {amenity.icon}
                   </div>
                   <p className="text-base text-gray-700 font-medium">{amenity.name}</p>
@@ -230,9 +230,9 @@ export default function BalodStayPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {[1, 2, 3, 4, 5, 6].map((num) => (
-              <div key={num} className="group relative overflow-hidden rounded-xl shadow-lg">
+              <div key={num} className="group relative overflow-hidden rounded-2xl shadow-lg">
                 <Image
-                  src={`/assets/rooms/room${num}.jpg`}
+                  src={`/media/Balod/room${num}.jpg`}
                   alt={`Room ${num}`}
                   width={400}
                   height={300}
@@ -250,31 +250,34 @@ export default function BalodStayPage() {
         </div>
       </section>
 
-      {/* Collapsible Section */}
-      <section className="py-16 bg-white">
+      {/* Collapsible Info */}
+      <section className="py-24 bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-12">
-            Additional Information
-          </h2>
-          <div className="space-y-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Additional Information</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Everything you need to know about your stay with us
+            </p>
+          </div>
+          <div className="max-w-3xl mx-auto space-y-4">
             {collapsibleItems.map((item, index) => (
-              <div
-                key={index}
-                className="border-b border-gray-200 pb-4"
+              <div 
+                key={index} 
+                className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
               >
-                <div
-                  className="flex justify-between items-center cursor-pointer"
-                  onClick={() => toggleItem(index)}
+                <div 
+                  onClick={() => toggleItem(index)} 
+                  className="flex justify-between items-center p-6 cursor-pointer"
                 >
-                  <h3 className="text-lg font-medium text-gray-900">
-                    {item.title}
-                  </h3>
-                  <span className="text-gray-500">
-                    {activeIndex === index ? "-" : "+"}
-                  </span>
+                  <h3 className="text-lg font-semibold text-gray-900">{item.title}</h3>
+                  <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center transition-transform duration-300 hover:scale-110">
+                    <span className="text-blue-600 font-medium">{activeIndex === index ? "−" : "+"}</span>
+                  </div>
                 </div>
                 {activeIndex === index && (
-                  <p className="mt-4 text-gray-600">{item.content}</p>
+                  <div className="px-6 pb-6 animate-fadeIn">
+                    <p className="text-gray-600 leading-relaxed">{item.content}</p>
+                  </div>
                 )}
               </div>
             ))}
@@ -284,3 +287,25 @@ export default function BalodStayPage() {
     </main>
   );
 }
+
+// Add these styles to your global CSS file
+const styles = `
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+`;

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback } from "react";
+import { useState, useCallback, memo } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
@@ -153,19 +153,106 @@ const AMENITIES = [
 ];
 
 const GALLERY_IMAGES = [
-  "/media/Balod/ELR_Balod 1.jpg",
-  "/media/Balod/ELR_Balod 2.jpg",
-  "/media/Balod/ELR_Balod 3.jpg",  
-  "/media/Balod/ELR_Balod 4.jpg",
-  "/media/Balod/ELR_Balod 5.jpg",
-  "/media/Balod/ELR_Balod 6.jpg",
-  "/media/Balod/ELR_Balod 7.jpg",
-  "/media/Balod/ELR_Balod 8.jpg",
-  "/media/Balod/ELR_Balod 9.jpg",
-  "/media/Balod/ELR_Balod 10.jpg",
-  "/media/Balod/ELR_Balod 11.jpg",
-  "/media/Balod/ELR_Balod 12.jpg",
-];
+    "/media/Balod/ELR_Balod 1.jpg",
+    "/media/Balod/ELR_Balod 2.jpg",
+    "/media/Balod/ELR_Balod 3.jpg",  
+    "/media/Balod/ELR_Balod 4.jpg",
+    "/media/Balod/ELR_Balod 5.jpg",
+    "/media/Balod/ELR_Balod 6.jpg",
+    "/media/Balod/ELR_Balod 7.jpg",
+    "/media/Balod/ELR_Balod 8.jpg",
+    "/media/Balod/ELR_Balod 9.jpg",
+    "/media/Balod/ELR_Balod 10.jpg",
+    "/media/Balod/ELR_Balod 11.jpg",
+    "/media/Balod/ELR_Balod 12.jpg",
+  ];
+
+// Memoize the HeroSection component
+const MemoizedHeroSection = memo(HeroSection);
+
+// Memoize the IntroductionSection component
+const MemoizedIntroductionSection = memo(IntroductionSection);
+
+// Memoize the AmenitiesSection component
+const AmenitiesSection = memo(function AmenitiesSection() {
+  return (
+    <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
+      <div className="container mx-auto px-4">
+        <SectionTitle
+          subtitle="Our Facilities"
+          title="Luxury Amenities"
+          description="Experience unparalleled comfort with our premium facilities designed for your ultimate satisfaction"
+        />
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
+          {AMENITIES.slice(0, 12).map((amenity, index) => (
+            <AmenityCard key={index} {...amenity} />
+          ))}
+        </div>
+
+        <div className="text-center mt-8">
+          <div className="inline-flex items-center space-x-2 bg-gray-50 px-4 py-2 rounded-full">
+            <svg
+              className="w-4 h-4 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <p className="text-xs text-gray-500">*Charges May Apply</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+});
+
+// Memoize the GallerySection component
+const GallerySection = memo(function GallerySection({ onGalleryClick, onViewAllClick }) {
+  return (
+    <section className="py-24 bg-gradient-to-b from-white to-gray-50">
+      <div className="container mx-auto px-4">
+        <SectionTitle
+          subtitle="Visual Journey"
+          title="Photo Gallery"
+          description="Explore the beauty and elegance of The Empyrean Lake Resort through our curated gallery"
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {GALLERY_IMAGES.map((image, index) => (
+            <GalleryImage
+              key={index}
+              src={image}
+              index={index}
+              onClick={onGalleryClick}
+            />
+          ))}
+        </div>
+
+        <div className="text-center mt-16">
+          <button 
+            onClick={onViewAllClick}
+            className="inline-flex items-center space-x-3 bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 transition-colors duration-300 shadow-lg hover:shadow-xl"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <span className="text-lg font-medium">View All Photos</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+});
+
+// Memoize the Lightbox component
+const MemoizedLightbox = memo(Lightbox);
 
 export default function BalodResortPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -181,103 +268,46 @@ export default function BalodResortPage() {
     setIsOpen(true);
   }, []);
 
+  const handleClose = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
+  const slides = useCallback(() => GALLERY_IMAGES.map(image => ({ src: image })), []);
+
   return (
     <main className="min-h-screen bg-gray-50">
-      <HeroSection
-        image="/assets/ELR_Balod 2.jpg"
+      <MemoizedHeroSection
+        image="/media/Balod/ELR_Balod 2.jpg"
         title="The Empyrean Lake Resort"
         subtitle="Where Nature Meets Luxury in Balod"
       />
 
-      <IntroductionSection
+      <MemoizedIntroductionSection
         title="Welcome to Paradise"
         description="Empyrean Lake Resort, located on the serene shores of Tandula Lake, offers an unmatched full-service experience with a variety of activities ranging from lakeside dining to exhilarating outdoor adventures. Enjoy resort amenities such as indoor and outdoor pools, family-friendly activities, live entertainment, and our luxurious spa facilities. Take a peaceful stroll along the lakefront trail, or unwind and watch a film in our cozy lakeside cinema. For personalized recommendations, our expert staff is here to assist you in curating the perfect itinerary. You can also check out our Weekly Activities guide to see the full lineup of exciting events and activities for your stay."
       />
 
-      {/* Amenities Section */}
-      <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
-        <div className="container mx-auto px-4">
-          <SectionTitle
-            subtitle="Our Facilities"
-            title="Luxury Amenities"
-            description="Experience unparalleled comfort with our premium facilities designed for your ultimate satisfaction"
-          />
+      <AmenitiesSection />
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
-            {AMENITIES.map((amenity, index) => (
-              <AmenityCard key={index} {...amenity} />
-            ))}
-          </div>
+      <GallerySection 
+        onGalleryClick={handleGalleryClick}
+        onViewAllClick={handleViewAllClick}
+      />
 
-          <div className="text-center mt-8">
-            <div className="inline-flex items-center space-x-2 bg-gray-50 px-4 py-2 rounded-full">
-              <svg
-                className="w-4 h-4 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <p className="text-xs text-gray-500">*Charges May Apply</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Gallery Section */}
-      <section className="py-24 bg-gradient-to-b from-white to-gray-50">
-        <div className="container mx-auto px-4">
-          <SectionTitle
-            subtitle="Visual Journey"
-            title="Photo Gallery"
-            description="Explore the beauty and elegance of The Empyrean Lake Resort through our curated gallery"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {GALLERY_IMAGES.map((image, index) => (
-              <GalleryImage
-                key={index}
-                src={image}
-                index={index}
-                onClick={handleGalleryClick}
-              />
-            ))}
-          </div>
-
-          <div className="text-center mt-16">
-            <button 
-              onClick={handleViewAllClick}
-              className="inline-flex items-center space-x-3 bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 transition-colors duration-300 shadow-lg hover:shadow-xl"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <span className="text-lg font-medium">View All Photos</span>
-            </button>
-          </div>
-        </div>
-
-        <Lightbox
-          open={isOpen}
-          close={() => setIsOpen(false)}
-          index={photoIndex}
-          slides={GALLERY_IMAGES.map(image => ({ src: image }))}
-          plugins={[Fullscreen, Zoom, Thumbnails]}
-          carousel={{ finite: true }}
-          animation={{ fade: 300 }}
-          controller={{ closeOnBackdropClick: true }}
-          styles={{ 
-            container: { backgroundColor: "rgba(0, 0, 0, 0.9)" },
-            slide: { padding: "16px" }
-          }}
-        />
-      </section>
+      <MemoizedLightbox
+        open={isOpen}
+        close={handleClose}
+        index={photoIndex}
+        slides={slides()}
+        plugins={[Fullscreen, Zoom, Thumbnails]}
+        carousel={{ finite: true }}
+        animation={{ fade: 300 }}
+        controller={{ closeOnBackdropClick: true }}
+        styles={{ 
+          container: { backgroundColor: "rgba(0, 0, 0, 0.9)" },
+          slide: { padding: "16px" }
+        }}
+      />
     </main>
   );
 }

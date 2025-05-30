@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback } from "react";
+import { useState, useCallback, memo } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
@@ -14,6 +14,7 @@ import {
   SectionTitle
 } from "@/components/resort/ResortComponents";
 
+// Memoize the AMENITIES array to prevent recreation on each render
 const AMENITIES = [
   { 
     title: "3 Lawns", 
@@ -122,27 +123,114 @@ const AMENITIES = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
       </svg>
     )
-  },
-  
+  }
 ];
 
+// Memoize the GALLERY_IMAGES array
 const GALLERY_IMAGES = [
-  "/media/Bhilai/bhilai1.jpg",
-  "/media/Bhilai/bhilai2.jpg",
-  "/media/Bhilai/bhilai3.jpg",
-  "/media/Bhilai/bhilai4.jpg",
-  "/media/Bhilai/bhilai5.jpg",
-  "/media/Bhilai/bhilai6.jpg",
-  "/media/Bhilai/bhilai7.jpg",
-  "/media/Bhilai/bhilai8.jpg",
-  "/media/Bhilai/bhilai9.jpg",
-  "/media/Bhilai/bhilai10.jpg",
-  "/media/Bhilai/bhilai11.jpg",
-  "/media/Bhilai/bhilai12.jpg",
-  "/media/Bhilai/bhilai13.jpg",
-  "/media/Bhilai/bhilai14.jpg",
-  "/media/Bhilai/bhilai15.jpg",
-];
+    "/media/Bhilai/bhilai1.jpg",
+    "/media/Bhilai/bhilai2.jpg",
+    "/media/Bhilai/bhilai3.jpg",
+    "/media/Bhilai/bhilai4.jpg",
+    "/media/Bhilai/bhilai5.jpg",
+    "/media/Bhilai/bhilai6.jpg",
+    "/media/Bhilai/bhilai7.jpg",
+    "/media/Bhilai/bhilai8.jpg",
+    "/media/Bhilai/bhilai9.jpg",
+    "/media/Bhilai/bhilai10.jpg",
+    "/media/Bhilai/bhilai11.jpg",
+    "/media/Bhilai/bhilai12.jpg",
+    "/media/Bhilai/bhilai13.jpg",
+    "/media/Bhilai/bhilai14.jpg",
+    "/media/Bhilai/bhilai15.jpg",
+  ];
+
+// Memoize the HeroSection component
+const MemoizedHeroSection = memo(HeroSection);
+
+// Memoize the IntroductionSection component
+const MemoizedIntroductionSection = memo(IntroductionSection);
+
+// Memoize the AmenitiesSection component
+const AmenitiesSection = memo(function AmenitiesSection() {
+  return (
+    <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
+      <div className="container mx-auto px-4">
+        <SectionTitle
+          subtitle="Our Facilities"
+          title="Luxury Amenities"
+          description="Experience unparalleled comfort with our premium facilities designed for your ultimate satisfaction"
+        />
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
+          {AMENITIES.map((amenity, index) => (
+            <AmenityCard key={index} {...amenity} />
+          ))}
+        </div>
+
+        <div className="text-center mt-8">
+          <div className="inline-flex items-center space-x-2 bg-gray-50 px-4 py-2 rounded-full">
+            <svg
+              className="w-4 h-4 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <p className="text-xs text-gray-500">*Charges May Apply</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+});
+
+// Memoize the GallerySection component
+const GallerySection = memo(function GallerySection({ onGalleryClick, onViewAllClick }) {
+  return (
+    <section className="py-24 bg-gradient-to-b from-white to-gray-50">
+      <div className="container mx-auto px-4">
+        <SectionTitle
+          subtitle="Visual Journey"
+          title="Photo Gallery"
+          description="Explore the beauty and elegance of The Empyrean Hotel and Resort through our curated gallery"
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {GALLERY_IMAGES.map((image, index) => (
+            <GalleryImage
+              key={index}
+              src={image}
+              index={index}
+              onClick={onGalleryClick}
+            />
+          ))}
+        </div>
+
+        <div className="text-center mt-16">
+          <button 
+            onClick={onViewAllClick}
+            className="inline-flex items-center space-x-3 bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 transition-colors duration-300 shadow-lg hover:shadow-xl"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <span className="text-lg font-medium">View All Photos</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+});
+
+// Memoize the Lightbox component
+const MemoizedLightbox = memo(Lightbox);
 
 export default function BhilaiResortPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -158,103 +246,46 @@ export default function BhilaiResortPage() {
     setIsOpen(true);
   }, []);
 
+  const handleClose = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
+  const slides = useCallback(() => GALLERY_IMAGES.map(image => ({ src: image })), []);
+
   return (
     <main className="min-h-screen bg-gray-50">
-      <HeroSection
+      <MemoizedHeroSection
         image="/media/Bhilai/chouhan2.jpg"
         title="The Empyrean Hotel and Resort"
         subtitle="Where Luxury Meets Comfort in the Heart of Bhilai"
       />
 
-      <IntroductionSection
+      <MemoizedIntroductionSection
         title="Welcome to Excellence"
         description="Nestled in the heart of Bhilai, The Empyrean Hotel and Resort redefines the essence of hospitality with its blend of elegance, luxury, and sophistication. Whether you're planning an intimate wedding, a grand concert, a lively party, or a professional corporate function, our versatile venue offers the perfect setting for every occasion. With over 160 luxurious rooms and a host of extensive amenities, we provide the highest level of comfort and service. Every moment at The Empyrean is meticulously curated to exceed expectations, ensuring your event is nothing short of extraordinary. Experience a seamless blend of exceptional service and opulence, all in the heart of Chhattisgarh."
       />
 
-      {/* Amenities Section */}
-      <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
-        <div className="container mx-auto px-4">
-          <SectionTitle
-            subtitle="Our Facilities"
-            title="Luxury Amenities"
-            description="Experience unparalleled comfort with our premium facilities designed for your ultimate satisfaction"
-          />
+      <AmenitiesSection />
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
-            {AMENITIES.map((amenity, index) => (
-              <AmenityCard key={index} {...amenity} />
-            ))}
-          </div>
+      <GallerySection 
+        onGalleryClick={handleGalleryClick}
+        onViewAllClick={handleViewAllClick}
+      />
 
-          <div className="text-center mt-8">
-            <div className="inline-flex items-center space-x-2 bg-gray-50 px-4 py-2 rounded-full">
-              <svg
-                className="w-4 h-4 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <p className="text-xs text-gray-500">*Charges May Apply</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Gallery Section */}
-      <section className="py-24 bg-gradient-to-b from-white to-gray-50">
-        <div className="container mx-auto px-4">
-          <SectionTitle
-            subtitle="Visual Journey"
-            title="Photo Gallery"
-            description="Explore the beauty and elegance of The Empyrean Hotel and Resort through our curated gallery"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {GALLERY_IMAGES.map((image, index) => (
-              <GalleryImage
-                key={index}
-                src={image}
-                index={index}
-                onClick={handleGalleryClick}
-              />
-            ))}
-          </div>
-
-          <div className="text-center mt-16">
-            <button 
-              onClick={handleViewAllClick}
-              className="inline-flex items-center space-x-3 bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 transition-colors duration-300 shadow-lg hover:shadow-xl"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <span className="text-lg font-medium">View All Photos</span>
-            </button>
-          </div>
-        </div>
-
-        <Lightbox
-          open={isOpen}
-          close={() => setIsOpen(false)}
-          index={photoIndex}
-          slides={GALLERY_IMAGES.map(image => ({ src: image }))}
-          plugins={[Fullscreen, Zoom, Thumbnails]}
-          carousel={{ finite: true }}
-          animation={{ fade: 300 }}
-          controller={{ closeOnBackdropClick: true }}
-          styles={{ 
-            container: { backgroundColor: "rgba(0, 0, 0, 0.9)" },
-            slide: { padding: "16px" }
-          }}
-        />
-      </section>
+      <MemoizedLightbox
+        open={isOpen}
+        close={handleClose}
+        index={photoIndex}
+        slides={slides()}
+        plugins={[Fullscreen, Zoom, Thumbnails]}
+        carousel={{ finite: true }}
+        animation={{ fade: 300 }}
+        controller={{ closeOnBackdropClick: true }}
+        styles={{ 
+          container: { backgroundColor: "rgba(0, 0, 0, 0.9)" },
+          slide: { padding: "16px" }
+        }}
+      />
     </main>
   );
 }
