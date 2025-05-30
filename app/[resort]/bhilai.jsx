@@ -273,7 +273,7 @@ export default function BhilaiPage() {
       <section className="relative py-24 bg-gradient-to-b from-white to-gray-50">
         <div className="absolute inset-0">
           <Image
-            src="/media/Bhilai/bhilai-resort-full.jpg"
+            src="/media/Bhilai/bhilai-resort-full.JPG"
             alt="Set Up the Perfect Event"
             fill
             className="object-cover"
