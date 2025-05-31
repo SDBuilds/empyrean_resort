@@ -2,12 +2,11 @@
 import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import { initAnimations, sectionAnimations, contentAnimations, getStaggeredDelay } from "@/animations/animations";
 
 // Hero Section Component
 const HeroSection = ({ resort, image, title, address, phone, description, buttonText }) => (
-  <div className="relative group overflow-hidden" data-aos="fade-up">
+  <div className="relative group overflow-hidden" {...sectionAnimations.hero}>
     <Link href={`/${resort}`} className="block">
       <div className="relative h-[70vh] md:h-screen">
         <Image
@@ -19,7 +18,7 @@ const HeroSection = ({ resort, image, title, address, phone, description, button
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent">
           <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-8 md:p-16 max-w-4xl mx-auto">
-            <div className="space-y-4 md:space-y-6 bg-black/40 backdrop-blur-sm p-4 sm:p-6 md:p-8 rounded-xl md:rounded-2xl" data-aos="fade-up" data-aos-delay="200">
+            <div className="space-y-4 md:space-y-6 bg-black/40 backdrop-blur-sm p-4 sm:p-6 md:p-8 rounded-xl md:rounded-2xl" {...getStaggeredDelay(2)}>
               <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
                 {title}
               </h2>
@@ -51,8 +50,7 @@ const HighlightCard = ({ image, caption, description, link, index }) => (
   <Link
     href={link}
     className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500"
-    data-aos="fade-up"
-    data-aos-delay={index * 100}
+    {...getStaggeredDelay(index)}
   >
     <div className="relative h-96">
       <Image
@@ -83,7 +81,7 @@ const HighlightCard = ({ image, caption, description, link, index }) => (
 
 // Resort Highlights Section Component
 const ResortHighlights = ({ resortName, items }) => (
-  <div className="container mx-auto px-4 py-24" data-aos="fade-up">
+  <div className="container mx-auto px-4 py-24" {...sectionAnimations.amenities}>
     <div className="text-center mb-16">
       <span className="text-blue-600 font-semibold tracking-wider uppercase text-sm mb-4 block">
         {resortName === "balod" ? "Luxury Experience" : "Premium Hospitality"}
@@ -107,11 +105,7 @@ const ResortHighlights = ({ resortName, items }) => (
 
 export default function HomePage() {
   useEffect(() => {
-    AOS.init({
-      duration: 1000,
-      once: false,
-      offset: 50,
-    });
+    initAnimations();
   }, []);
 
   const balodData = {

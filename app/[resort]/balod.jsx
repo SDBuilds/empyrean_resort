@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { initAnimations, sectionAnimations, contentAnimations, getStaggeredDelay } from "@/animations/animations";
 
 
 // Dynamically import components with SSR disabled
@@ -101,6 +102,7 @@ export default function BalodPage() {
 
   useEffect(() => {
     setIsMounted(true);
+    initAnimations();
   }, []);
 
   const sliderSettings = {
@@ -171,7 +173,7 @@ export default function BalodPage() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent z-10" />
         <div className="absolute top-0 left-0 right-0 h-12 bg-black z-20"></div>
         <div className="absolute inset-0 flex items-end justify-start text-left p-8 md:p-16 z-30">
-          <div className="max-w-3xl space-y-6" data-aos="fade-up">
+          <div className="max-w-3xl space-y-6" {...sectionAnimations.hero}>
             <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight">
               The Empyrean Lake Resort
             </h1>
@@ -183,10 +185,10 @@ export default function BalodPage() {
       </section>
 
       {/* Property Overview */}
-      <section className="py-24 bg-gradient-to-b from-white to-gray-50">
+      <section className="py-24 bg-gradient-to-b from-white to-gray-50" {...sectionAnimations.propertyOverview}>
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="relative h-[600px] rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
+            <div className="relative h-[600px] rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-transform duration-500" {...contentAnimations.image}>
               <Image
                 src="/media/Balod/ELR_Balod 25.jpg"
                 alt="Empyrean Lake Resort Balod"
@@ -195,7 +197,7 @@ export default function BalodPage() {
                 priority
               />
             </div>
-            <div className="space-y-8">
+            <div className="space-y-8" {...contentAnimations.text}>
               <div className="space-y-4">
                 <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
                   The Empyrean Lake Resort, Balod
@@ -252,7 +254,7 @@ export default function BalodPage() {
       {/* Amenity Cards */}
       <section className="py-24 bg-gradient-to-b from-gray-50 to-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-20">
+          <div className="text-center mb-20" {...sectionAnimations.amenities}>
             <span className="text-blue-600 font-semibold tracking-wider uppercase text-sm mb-4 block">
               Our Facilities
             </span>
@@ -264,18 +266,20 @@ export default function BalodPage() {
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {amenityCards.map((card) => (
-              <AmenityCard key={card.title} card={card} />
+            {amenityCards.map((card, index) => (
+              <div key={card.title} {...getStaggeredDelay(index)}>
+                <AmenityCard card={card} />
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Wedding Section */}
-      <section className="py-24 bg-gradient-to-b from-white to-gray-50">
+      <section className="py-24 bg-gradient-to-b from-white to-gray-50" {...sectionAnimations.wedding}>
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="relative h-[600px] rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
+            <div className="relative h-[600px] rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-transform duration-500" {...contentAnimations.image}>
               <Image
                 src="/media/Balod/ELR_Balod 23.jpg"
                 alt="Weddings at Empyrean Resort"
@@ -284,7 +288,7 @@ export default function BalodPage() {
                 priority
               />
             </div>
-            <div className="space-y-8">
+            <div className="space-y-8" {...contentAnimations.text}>
               <div className="space-y-4">
                 <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
                   Weddings at The Empyrean
@@ -313,9 +317,9 @@ export default function BalodPage() {
       </section>
 
       {/* Image Slider Section */}
-      <section className="py-24 bg-gradient-to-b from-gray-50 to-white">
+      <section className="py-24 bg-gradient-to-b from-gray-50 to-white" {...sectionAnimations.gallery}>
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16" {...sectionAnimations.gallery}>
             <span className="text-blue-600 font-semibold tracking-wider uppercase text-sm mb-4 block">
               Visual Journey
             </span>
@@ -326,7 +330,7 @@ export default function BalodPage() {
               Explore the beauty and elegance of The Empyrean Lake Resort through our curated gallery
             </p>
           </div>
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-7xl mx-auto" {...getStaggeredDelay(2)}>
             <Slider {...sliderSettings}>
               {weddingImages.map((image, index) => (
                 <GalleryImage key={index} image={image} index={index} />
@@ -337,7 +341,7 @@ export default function BalodPage() {
       </section>
 
       {/* Event Section with Background Image */}
-      <section className="relative py-24 bg-gradient-to-b from-white to-gray-50">
+      <section className="relative py-24 bg-gradient-to-b from-white to-gray-50" {...sectionAnimations.events}>
         <div className="absolute inset-0">
           <Image
             src="/media/Balod/ELR_Balod 24.jpg"
@@ -352,7 +356,7 @@ export default function BalodPage() {
         <div className="relative container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
             <div className="hidden lg:block"></div>
-            <div className="max-w-lg bg-white/90 backdrop-blur-md rounded-2xl p-8 md:p-12 shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
+            <div className="max-w-lg bg-white/90 backdrop-blur-md rounded-2xl p-8 md:p-12 shadow-2xl transform hover:scale-[1.02] transition-transform duration-500" {...contentAnimations.text}>
               <div className="space-y-6">
                 <h2 className="text-4xl font-bold text-gray-900">Set Up the Perfect Event</h2>
                 <p className="text-lg text-gray-600 leading-relaxed">
