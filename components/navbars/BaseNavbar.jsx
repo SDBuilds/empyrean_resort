@@ -9,7 +9,8 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function BaseNavbar({
   logo,
   menuItems,
-  bookNowUrl,
+  ctaUrl,
+  ctaLabel = "BOOK NOW",
   shouldRender,
   logoWidth = 70,
   logoHeight = 20,
@@ -124,22 +125,31 @@ export default function BaseNavbar({
               </motion.li>
             ))}
 
-            {/* Book Now Button */}
-            {bookNowUrl && (
+            {/* CTA Button */}
+            {ctaUrl && (
               <motion.li
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: (menuItems.length + 1) * 0.1 }}
                 whileHover={{ scale: 1.05 }}
               >
-                <a
-                  href={bookNowUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-blue-600 text-white px-6 py-2.5 rounded-full hover:bg-blue-700 transition-all duration-300 shadow-md hover:shadow-lg"
-                >
-                  BOOK NOW
-                </a>
+                {ctaUrl.startsWith("/") ? (
+                  <Link
+                    href={ctaUrl}
+                    className="bg-blue-600 text-white px-6 py-2.5 rounded-full hover:bg-blue-700 transition-all duration-300 shadow-md hover:shadow-lg"
+                  >
+                    {ctaLabel}
+                  </Link>
+                ) : (
+                  <a
+                    href={ctaUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-blue-600 text-white px-6 py-2.5 rounded-full hover:bg-blue-700 transition-all duration-300 shadow-md hover:shadow-lg"
+                  >
+                    {ctaLabel}
+                  </a>
+                )}
               </motion.li>
             )}
           </ul>
@@ -241,8 +251,8 @@ export default function BaseNavbar({
                   </motion.li>
                 ))}
 
-                {/* Mobile Book Now Button */}
-                {bookNowUrl && (
+                {/* Mobile CTA Button */}
+                {ctaUrl && (
                   <motion.li
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -253,15 +263,25 @@ export default function BaseNavbar({
                     }}
                     className="pt-4"
                   >
-                    <a
-                      href={bookNowUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block w-full text-center bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition-all duration-300"
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      BOOK NOW
-                    </a>
+                    {ctaUrl.startsWith("/") ? (
+                      <Link
+                        href={ctaUrl}
+                        className="block w-full text-center bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition-all duration-300"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        {ctaLabel}
+                      </Link>
+                    ) : (
+                      <a
+                        href={ctaUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block w-full text-center bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition-all duration-300"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        {ctaLabel}
+                      </a>
+                    )}
                   </motion.li>
                 )}
               </ul>

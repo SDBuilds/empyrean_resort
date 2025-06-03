@@ -1,12 +1,13 @@
 "use client";
 import Image from "next/image";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
+import { initAnimations, sectionAnimations, contentAnimations, getStaggeredDelay } from "@/animations/animations";
 
 // Hero Section Component
 const HeroSection = ({ image, title, subtitle }) => (
@@ -21,7 +22,7 @@ const HeroSection = ({ image, title, subtitle }) => (
     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
     <div className="absolute inset-0 flex items-center justify-center text-center">
       <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto space-y-6" data-aos="fade-up">
+        <div className="max-w-4xl mx-auto space-y-6" {...contentAnimations.text}>
           <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight">
             {title}
           </h1>
@@ -39,14 +40,14 @@ const IntroductionSection = ({ title, description }) => (
   <section className="py-24 bg-gradient-to-b from-white to-gray-50">
     <div className="container mx-auto px-4">
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-12">
+        <div className="text-center mb-12" {...contentAnimations.text}>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 relative inline-block group">
             {title}
             <span className="absolute bottom-0 left-0 w-full h-1 bg-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
           </h2>
           <div className="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
         </div>
-        <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 transform hover:scale-[1.02] transition-all duration-300">
+        <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 transform hover:scale-[1.02] transition-all duration-300" {...contentAnimations.text}>
           <p className="text-lg text-gray-600 leading-relaxed">
             {description}
           </p>
@@ -58,7 +59,7 @@ const IntroductionSection = ({ title, description }) => (
 
 // Amenity Card Component
 const AmenityCard = ({ title, description, icon }) => (
-  <div className="relative group">
+  <div className="relative group" {...contentAnimations.card}>
     <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-400 rounded-xl transform transition-transform duration-300 group-hover:scale-105"></div>
     <div className="relative bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
       <div className="flex items-center space-x-4">
@@ -83,6 +84,7 @@ const GalleryImage = ({ src, index, onClick }) => (
   <div
     className="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
     onClick={() => onClick(index)}
+    {...contentAnimations.card}
   >
     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
     <Image
@@ -103,6 +105,13 @@ const GalleryImage = ({ src, index, onClick }) => (
 );
 
 export default function BalodResortPage() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [photoIndex, setPhotoIndex] = useState(0);
+
+  useEffect(() => {
+    initAnimations();
+  }, []);
+
   const amenities = useMemo(() => [
     { 
       title: "Lush Green Lawns", 
@@ -175,9 +184,6 @@ export default function BalodResortPage() {
     "/media/Balod/ELR_Balod 12.jpg",
   ], []);
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [photoIndex, setPhotoIndex] = useState(0);
-
   const slides = useMemo(() => 
     galleryImages.map(image => ({ src: image })), 
     [galleryImages]
@@ -189,17 +195,19 @@ export default function BalodResortPage() {
         image="/assets/ELR_Balod 2.jpg"
         title="The Empyrean Lake Resort"
         subtitle="Where Nature Meets Luxury in Balod"
+        {...sectionAnimations.hero}
       />
 
       <IntroductionSection
         title="Welcome to Paradise"
         description="Empyrean Lake Resort, located on the serene shores of Tandula Lake, offers an unmatched full-service experience with a variety of activities ranging from lakeside dining to exhilarating outdoor adventures. Enjoy resort amenities such as indoor and outdoor pools, family-friendly activities, live entertainment, and our luxurious spa facilities. Take a peaceful stroll along the lakefront trail, or unwind and watch a film in our cozy lakeside cinema. For personalized recommendations, our expert staff is here to assist you in curating the perfect itinerary. You can also check out our Weekly Activities guide to see the full lineup of exciting events and activities for your stay."
+        {...sectionAnimations.propertyOverview}
       />
 
       {/* Amenities Section */}
-      <section className="py-24 bg-gradient-to-b from-gray-50 to-white">
+      <section className="py-24 bg-gradient-to-b from-gray-50 to-white" {...sectionAnimations.amenities}>
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16" {...contentAnimations.text}>
             <span className="text-blue-600 font-semibold tracking-wider uppercase text-sm mb-4 block">
               Our Facilities
             </span>
@@ -213,11 +221,13 @@ export default function BalodResortPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {amenities.map((amenity, index) => (
-              <AmenityCard key={index} {...amenity} />
+              <div key={index} {...getStaggeredDelay(index)}>
+                <AmenityCard {...amenity} />
+              </div>
             ))}
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-12" {...contentAnimations.text}>
             <div className="inline-flex items-center space-x-2 bg-gray-50 px-6 py-3 rounded-full">
               <svg
                 className="w-5 h-5 text-gray-400"
@@ -239,9 +249,9 @@ export default function BalodResortPage() {
       </section>
 
       {/* Gallery Section */}
-      <section className="py-24 bg-gradient-to-b from-white to-gray-50">
+      <section className="py-24 bg-gradient-to-b from-white to-gray-50" {...sectionAnimations.gallery}>
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16" {...contentAnimations.text}>
             <span className="text-blue-600 font-semibold tracking-wider uppercase text-sm mb-4 block">
               Visual Journey
             </span>
@@ -255,19 +265,20 @@ export default function BalodResortPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {galleryImages.map((image, index) => (
-              <GalleryImage
-                key={index}
-                src={image}
-                index={index}
-                onClick={(idx) => {
-                  setPhotoIndex(idx);
-                  setIsOpen(true);
-                }}
-              />
+              <div key={index} {...getStaggeredDelay(index)}>
+                <GalleryImage
+                  src={image}
+                  index={index}
+                  onClick={(idx) => {
+                    setPhotoIndex(idx);
+                    setIsOpen(true);
+                  }}
+                />
+              </div>
             ))}
           </div>
 
-          <div className="text-center mt-16">
+          <div className="text-center mt-16" {...contentAnimations.text}>
             <button 
               onClick={() => {
                 setPhotoIndex(0);

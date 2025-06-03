@@ -28,7 +28,8 @@ export default function MainNavbar() {
       logo="/media/Bhilai/ChouhanG.png"
       logoAlt="Empyrean Hotels"
       menuItems={menuItems}
-      bookNowUrl="https://www.makemytrip.com/hotels/empyrean_lake_resort-details-balod.html"
+      ctaUrl="/whats-new"
+      ctaLabel="What's New"
       hasDropdown={true}
       dropdownItems={dropdownItems}
     />
