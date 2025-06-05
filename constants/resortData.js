@@ -160,4 +160,57 @@ export const getIconComponent = (icon) => {
     )
   };
   return icons[icon] || null;
-}; 
+};
+
+export const heroSlides = [
+  {
+    image: "/media/Balod/ELR_Balod 22.jpg",
+    link: "/balod",
+    alt: "Empyrean Lake Resort, Balod",
+    label: "Empyrean Lake Resort, Balod",
+  },
+  {
+    image: "/media/Bhilai/bhilai-resort-full.JPG",
+    link: "/bhilai",
+    alt: "Empyrean Hotel and Resort, Bhilai",
+    label: "Empyrean Hotel and Resort, Bhilai",
+  },
+];
+
+export const resorts = [
+  {
+    name: "Empyrean Lake Resort, Balod",
+    image: "/media/Balod/ELR_Balod 22.jpg",
+    description: "A lakeside paradise offering luxury, adventure, and tranquility in Balod.",
+    link: "/balod",
+  },
+  {
+    name: "Empyrean Hotel and Resort, Bhilai",
+    image: "/media/Bhilai/bhilai-resort-full.JPG",
+    description: "Premium hospitality and world-class amenities in the heart of Bhilai.",
+    link: "/bhilai",
+  },
+];
+
+export const projects = [
+  {
+    caption: "Hotel Empyrean, Tatibandh (Opening Shortly)",
+    image: "/media/Common/tatibandh.png",
+    description: "A new luxury destination opening soon in Tatibandh.",
+  },
+  {
+    caption: "Hotel Empyrean, Tumbidod",
+    image: "/media/Common/tumdibod.png",
+    description: "Experience comfort and elegance at our upcoming Tumbidod property.",
+  },
+  {
+    caption: "Hotel Palladio, Bhilai",
+    image: "/media/Common/paladio.png",
+    description: "A new landmark of hospitality in Bhilai.",
+  },
+  {
+    caption: "Sky Park",
+    image: "/media/Common/skypark.png",
+    description: "An innovative project redefining leisure and recreation.",
+  },
+]; 

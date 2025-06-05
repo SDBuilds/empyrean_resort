@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import LenisProvider from "@/components/LenisProvider";
+import { LenisProvider } from '@/components/LenisProvider';
 import MainFooter from "@/components/footers/MainFooter";
 import ConditionalNavbar from "@/components/navbars/ConditionalNavbar"; 
 

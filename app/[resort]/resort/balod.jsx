@@ -192,9 +192,10 @@ export default function BalodResortPage() {
   return (
     <main className="min-h-screen bg-gray-50">
       <HeroSection
-        image="/assets/ELR_Balod 2.jpg"
+        image="/media/Balod/ELR_Balod 2.jpg"
         title="The Empyrean Lake Resort"
-        subtitle="Where Nature Meets Luxury in Balod"
+        subtitle=""
+        hideText
         {...sectionAnimations.hero}
       />
 
